@@ -6,6 +6,7 @@ using System;
 using Catalog.Dtos;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Catalog.Controllers
 {
@@ -16,9 +17,11 @@ namespace Catalog.Controllers
     {
         private readonly IItemRepository repository;
 
-        public ItemsController(IItemRepository repository)
+        private readonly ILogger<ItemsController> logger;
+        public ItemsController(IItemRepository repository, ILogger<ItemsController> logger)
         {
             this.repository = repository;
+            this.logger = logger;
         }
 
         // GET /items
@@ -27,6 +30,9 @@ namespace Catalog.Controllers
         {
             var items = (await repository.GetItemsAsync())
                                                 .Select( item => item.AsDto());
+            
+            logger.LogInformation($"{DateTime.UtcNow.ToString("hh:mm:ss")} : Retrieved {items.Count()} items");
+
             return items;
         }
 
