@@ -26,6 +26,7 @@ bin/
 obj/
 TestResults/
 .vs/
+.idea/
 ###################
 # Web publish log #
 ###################
